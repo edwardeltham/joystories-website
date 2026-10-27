@@ -290,3 +290,15 @@ button.btn { font: inherit; font-weight: 700; background: var(--white); color: v
 .logos img { max-height: 54px; max-width: 100%; width: auto; filter: grayscale(1) contrast(1.1); opacity: .75; transition: filter .3s, opacity .3s; }
 .logos div:hover img { filter: none; opacity: 1; }
 @media (max-width: 720px) { .logos { grid-template-columns: repeat(3, 1fr); } .logos div { padding: 10px; } }
+
+/* Testimonials */
+.quotes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--white); border: 2px solid var(--white); margin-top: 40px; }
+.quote { margin: 0; background: var(--black); padding: 28px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+.quote blockquote { margin: 0; font-family: var(--display); font-size: 1.45rem; line-height: 1.2; }
+.quote figcaption b { display: block; font-size: .9rem; }
+.quote figcaption span { font-size: .8rem; opacity: .6; }
+.quote:nth-child(5n+1) blockquote::first-letter { color: var(--yellow); } .quote:nth-child(5n+2) blockquote::first-letter { color: var(--pink); }
+.quote:nth-child(5n+3) blockquote::first-letter { color: var(--green); } .quote:nth-child(5n+4) blockquote::first-letter { color: var(--blue); }
+.quote:nth-child(5n) blockquote::first-letter { color: var(--orange); }
+@media (max-width: 900px) { .quotes { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .quotes { grid-template-columns: 1fr; } }

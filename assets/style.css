@@ -1,0 +1,189 @@
+/* Joy Stories — black & white, so our clients can be colorful. */
+:root {
+  --black: #0a0a0a;
+  --white: #ffffff;
+  --line: #0a0a0a;
+  --yellow: #ffd400;
+  --pink: #ff3d7f;
+  --blue: #2f6bff;
+  --green: #00c48c;
+  --orange: #ff7a00;
+  --max: 1160px;
+  --pad: clamp(16px, 4vw, 40px);
+  --display: "Archivo Black", "Arial Black", system-ui, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img, video { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 0.4em; }
+h1 { font-size: clamp(2.6rem, 8vw, 6rem); }
+h2 { font-size: clamp(2rem, 5vw, 3.4rem); }
+h3 { font-size: 1.35rem; letter-spacing: -0.01em; }
+p { margin: 0 0 1em; }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+.section { padding: clamp(64px, 10vw, 128px) 0; }
+.section--dark { background: var(--black); color: var(--white); }
+.section--line { border-top: 2px solid var(--line); }
+.eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 1rem; display: inline-block; }
+.lead { font-size: clamp(1.1rem, 2.2vw, 1.4rem); max-width: 40ch; }
+.muted { opacity: 0.7; }
+
+/* The colour moment: the only place colour lives is where joy shows up. */
+.joy {
+  background: linear-gradient(90deg, var(--yellow), var(--orange), var(--pink), var(--blue), var(--green));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.joy-bar { height: 8px; background: linear-gradient(90deg, var(--yellow) 0 20%, var(--orange) 20% 40%, var(--pink) 40% 60%, var(--blue) 60% 80%, var(--green) 80%); }
+.dot { display: inline-block; width: 0.55em; height: 0.55em; border-radius: 50%; background: var(--pink); vertical-align: 0.1em; }
+
+/* Header */
+.site-header { position: sticky; top: 0; z-index: 20; background: var(--white); border-bottom: 2px solid var(--line); }
+.site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.logo { font-family: var(--display); font-size: 1.3rem; text-decoration: none; letter-spacing: -0.02em; }
+.logo span { color: var(--pink); }
+.nav { display: flex; gap: 28px; align-items: center; }
+.nav a { text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+.nav a:hover, .nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; text-decoration-color: var(--yellow); }
+.nav-toggle { display: none; background: none; border: 2px solid var(--black); font: 700 0.9rem var(--body); padding: 8px 12px; cursor: pointer; }
+
+/* Buttons */
+.btn { display: inline-block; font-weight: 700; text-decoration: none; padding: 14px 26px; border: 2px solid currentColor; transition: transform .15s, box-shadow .15s; }
+.btn--solid { background: var(--black); color: var(--white); border-color: var(--black); }
+.section--dark .btn--solid { background: var(--white); color: var(--black); border-color: var(--white); }
+.btn:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--yellow); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+
+/* Hero */
+.hero { padding: clamp(72px, 12vw, 150px) 0 clamp(56px, 8vw, 100px); }
+.hero h1 { max-width: 13ch; }
+.hero .lead { margin-top: 18px; }
+
+/* Grids & cards */
+.grid { display: grid; gap: 2px; background: var(--line); border: 2px solid var(--line); }
+.grid--3 { grid-template-columns: repeat(3, 1fr); }
+.grid--2 { grid-template-columns: repeat(2, 1fr); }
+.grid--4 { grid-template-columns: repeat(4, 1fr); }
+.card { background: var(--white); padding: clamp(24px, 3vw, 40px); position: relative; transition: background .2s; }
+.card p:last-child { margin-bottom: 0; }
+.card .num { font-family: var(--display); font-size: 0.95rem; display: block; margin-bottom: 18px; }
+.card--link { text-decoration: none; display: block; }
+.card--link:hover { background: var(--black); color: var(--white); }
+.card--link .arrow { font-weight: 700; display: inline-block; margin-top: 12px; }
+.accent-yellow { box-shadow: inset 0 8px 0 var(--yellow); }
+.accent-pink { box-shadow: inset 0 8px 0 var(--pink); }
+.accent-blue { box-shadow: inset 0 8px 0 var(--blue); }
+.accent-green { box-shadow: inset 0 8px 0 var(--green); }
+.accent-orange { box-shadow: inset 0 8px 0 var(--orange); }
+
+/* Split */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
+
+/* I → We → Us */
+.journey { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 2px solid var(--white); }
+.journey > div { padding: clamp(24px, 4vw, 48px); border-right: 2px solid var(--white); }
+.journey > div:last-child { border-right: 0; }
+.journey .big { font-family: var(--display); font-size: clamp(3.5rem, 9vw, 7rem); line-height: 1; display: block; margin-bottom: 12px; }
+.journey > div:nth-child(1) .big { color: var(--yellow); }
+.journey > div:nth-child(2) .big { color: var(--pink); }
+.journey > div:nth-child(3) .big { color: var(--green); }
+
+/* Media placeholders (swap for real photos and videos) */
+.media {
+  aspect-ratio: 4 / 3; border: 2px solid var(--black); display: grid; place-items: center; text-align: center;
+  font-weight: 700; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px;
+  background: repeating-linear-gradient(45deg, var(--white) 0 14px, #f2f2f2 14px 15px);
+}
+.media--wide { aspect-ratio: 16 / 9; }
+.section--dark .media { border-color: var(--white); background: repeating-linear-gradient(45deg, var(--black) 0 14px, #1a1a1a 14px 15px); }
+
+/* Lists */
+.ticks { list-style: none; padding: 0; margin: 0; }
+.ticks li { padding: 12px 0 12px 32px; border-bottom: 1px solid currentColor; position: relative; }
+.ticks li::before { content: ""; position: absolute; left: 0; top: 21px; width: 14px; height: 14px; background: var(--yellow); border: 2px solid var(--black); }
+.section--dark .ticks li::before { border-color: var(--white); }
+
+/* Logos strip */
+.logos { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; background: var(--black); border: 2px solid var(--black); }
+.logos div { background: var(--white); aspect-ratio: 3/2; display: grid; place-items: center; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* Joy calendar */
+.cal-filter { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 28px; }
+.cal-filter button { font: 700 0.9rem var(--body); padding: 10px 18px; border: 2px solid var(--black); background: var(--white); cursor: pointer; }
+.cal-filter button[aria-pressed="true"] { background: var(--black); color: var(--white); }
+.cal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--black); border: 2px solid var(--black); }
+.month { background: var(--white); padding: 24px; }
+.month h3 { font-size: 1.1rem; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: baseline; }
+.month h3 small { font-family: var(--body); font-size: 0.75rem; font-weight: 700; opacity: 0.5; }
+.month ul { list-style: none; margin: 0; padding: 0; }
+.month li { font-size: 0.93rem; padding: 6px 0 6px 18px; position: relative; line-height: 1.35; }
+.month li::before { content: ""; position: absolute; left: 0; top: 11px; width: 9px; height: 9px; border-radius: 50%; }
+.month li.fest::before { background: var(--orange); }
+.month li.wacky::before { background: var(--pink); }
+.month li.cause::before { background: var(--green); }
+.month li b { font-weight: 700; }
+.month li span { display: block; font-size: 0.8rem; opacity: 0.6; }
+.legend { display: flex; flex-wrap: wrap; gap: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 18px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+
+/* Contact */
+.form { display: grid; gap: 18px; }
+.form label { font-weight: 700; font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; display: grid; gap: 8px; }
+.form input, .form select, .form textarea {
+  font: 400 1rem var(--body); padding: 14px; border: 2px solid var(--black); background: var(--white); color: var(--black); border-radius: 0; width: 100%;
+}
+.form input:focus, .form select:focus, .form textarea:focus { outline: none; box-shadow: 6px 6px 0 var(--yellow); }
+.form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.form button { justify-self: start; cursor: pointer; font: inherit; font-weight: 700; }
+
+/* CTA band */
+.cta { text-align: center; }
+.cta h2 { max-width: 18ch; margin: 0 auto 0.4em; }
+.cta .btn-row { justify-content: center; }
+
+/* Footer */
+.site-footer { background: var(--black); color: var(--white); padding: 56px 0 32px; }
+.site-footer .cols { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; }
+.site-footer a { text-decoration: none; opacity: 0.8; }
+.site-footer a:hover { opacity: 1; text-decoration: underline; }
+.site-footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.site-footer .small { font-size: 0.8rem; opacity: 0.6; margin-top: 40px; border-top: 1px solid #333; padding-top: 20px; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .grid--3, .grid--4, .cal { grid-template-columns: repeat(2, 1fr); }
+  .logos { grid-template-columns: repeat(3, 1fr); }
+  .split { grid-template-columns: 1fr; }
+  .site-footer .cols { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .nav-toggle { display: block; }
+  .nav { display: none; position: absolute; top: 68px; left: 0; right: 0; background: var(--white); border-bottom: 2px solid var(--black); flex-direction: column; align-items: flex-start; gap: 0; padding: 8px var(--pad) 16px; }
+  .nav.open { display: flex; }
+  .nav a { padding: 10px 0; width: 100%; }
+  .grid--2, .grid--3, .grid--4, .cal, .journey { grid-template-columns: 1fr; }
+  .journey > div { border-right: 0; border-bottom: 2px solid var(--white); }
+  .journey > div:last-child { border-bottom: 0; }
+  .form .row { grid-template-columns: 1fr; }
+  .site-footer .cols { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* Photos: the world in black & white, the people's joy in colour.
+   Upload photos already edited with selective colour (faces/emotions in colour) and add class "selective".
+   Any other photo is shown in black & white automatically, and blooms into colour on hover. */
+.photo { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); transition: filter .4s; }
+.photo:hover { filter: grayscale(0); }
+.photo.selective { filter: none; }

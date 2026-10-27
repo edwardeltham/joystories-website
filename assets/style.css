@@ -53,6 +53,8 @@ p { margin: 0 0 1em; }
 /* Header */
 .site-header { position: sticky; top: 0; z-index: 20; background: var(--white); border-bottom: 2px solid var(--line); }
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.logo img { height: 46px; width: auto; display: block; }
+.site-footer .logo img { height: 64px; }
 .logo { font-family: var(--display); font-size: 1.7rem; text-decoration: none; letter-spacing: -0.02em; }
 .logo span { color: var(--pink); }
 .nav { display: flex; gap: 28px; align-items: center; }
@@ -117,7 +119,7 @@ p { margin: 0 0 1em; }
 .section--dark .ticks li::before { border-color: var(--white); }
 
 /* Logos strip */
-.logos { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; background: var(--black); border: 2px solid var(--black); }
+.logos { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; background: var(--black); border: 2px solid var(--black); }
 .logos div { background: var(--white); aspect-ratio: 3/2; display: grid; place-items: center; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
 
 /* Joy calendar */
@@ -272,3 +274,19 @@ button.btn { font: inherit; font-weight: 700; background: var(--white); color: v
 @media (max-width: 900px) { .mm-board { grid-template-columns: repeat(4, 1fr); } .lo-board, .mini-team { margin: 0 auto; } }
 @media (max-width: 420px) { .tw-tile { width: 42px; height: 42px; font-size: 1.15rem; } }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } .journey .big { opacity: 1; transform: none; } .mini-team i { animation: none; } }
+
+/* Anatomy of a day */
+.day-row { display: grid; grid-template-columns: 64px 1fr; gap: 20px; padding: 26px 0; border-bottom: 1px solid #333; }
+.day-row:first-child { padding-top: 0; }
+.day-n { font-family: var(--display); font-style: italic; font-size: 2.4rem; line-height: 1; color: var(--yellow); }
+.day-row:nth-child(2) .day-n { color: var(--orange); } .day-row:nth-child(3) .day-n { color: var(--pink); }
+.day-row:nth-child(4) .day-n { color: var(--blue); } .day-row:nth-child(5) .day-n { color: var(--green); }
+.day-row p { margin: 0 0 8px; opacity: .85; }
+.day-games { font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .55 !important; }
+@media (max-width: 900px) { .split > div[style*="sticky"] { position: static !important; } }
+.tag { font-family: var(--display); font-size: 1.25rem; line-height: 1.2; }
+
+.logos div { padding: 18px; }
+.logos img { max-height: 54px; max-width: 100%; width: auto; filter: grayscale(1) contrast(1.1); opacity: .75; transition: filter .3s, opacity .3s; }
+.logos div:hover img { filter: none; opacity: 1; }
+@media (max-width: 720px) { .logos { grid-template-columns: repeat(3, 1fr); } .logos div { padding: 10px; } }

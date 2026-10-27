@@ -9,3 +9,4 @@ Static site for [joystories.co](https://joystories.co). Plain HTML and CSS, no b
   Use `selective` for photos already edited so only people's emotions are in colour; without it, photos show in black & white and bloom into colour on hover.
 - Hosting: GitHub Pages from `main` (root). Preview: https://edwardeltham.github.io/joystories-website/
 - Going live on joystories.co: switch DNS at Hostinger first, then add a `CNAME` file containing `joystories.co` (or set Custom domain in Settings → Pages).
+- Journal: posts live in `posts.py` next to the generator (`/mnt/project-files/joystories-website-src/`). Add a dict to `POSTS` and re-run `gen.py`; it builds `journal.html` and `journal-<slug>.html`.

@@ -350,3 +350,16 @@ button.btn { font: inherit; font-weight: 700; background: var(--white); color: v
 @media (max-width: 720px) { .post-gallery { grid-template-columns: 1fr 1fr; } }
 .post-gallery--portrait .shot { aspect-ratio: 3 / 4; }
 [id] { scroll-margin-top: 84px; }
+
+/* FAQ */
+.faq { border-top: 1px solid rgba(10,10,10,.15); padding: 18px 0; }
+.faq:last-child { border-bottom: 1px solid rgba(10,10,10,.15); }
+.faq summary { cursor: pointer; font-weight: 600; font-size: 1.1rem; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-size: 1.4rem; line-height: 1; transition: transform .2s; }
+.faq[open] summary::after { transform: rotate(45deg); }
+.faq p { margin: 12px 0 0; max-width: 60ch; opacity: .85; }
+.faq a { text-decoration-color: var(--yellow); text-underline-offset: 3px; }
+
+/* Journal closing note */
+.post-body .post-note { margin-top: 2.4em; padding-top: 1.2em; border-top: 1px solid rgba(10,10,10,.15); font-size: 1rem; opacity: .8; }

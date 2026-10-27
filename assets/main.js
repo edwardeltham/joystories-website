@@ -30,3 +30,44 @@ if (form) form.addEventListener('submit', function (e) {
   location.href = 'mailto:' + form.dataset.email + '?subject=' + encodeURIComponent('Enquiry from ' + d.get('company')) +
     '&body=' + encodeURIComponent(body);
 });
+
+var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var COLORS = ['#ffd400', '#ff7a00', '#ff3d7f', '#2f6bff', '#00c48c'];
+
+// Rotating hero word
+document.querySelectorAll('.rotator').forEach(function (el) {
+  if (reduce) return;
+  var words = el.dataset.words.split(','), i = 0;
+  setInterval(function () {
+    el.classList.add('out');
+    setTimeout(function () { i = (i + 1) % words.length; el.textContent = words[i]; el.classList.remove('out'); }, 350);
+  }, 2400);
+});
+
+// Reveal on scroll
+var revealEls = document.querySelectorAll('main h2, main .lead, .grid, .split > *, .journey, .media, .cal, .logos, .ticks, .lo-board, .mm-board');
+if ('IntersectionObserver' in window && !reduce) {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(function (el) {
+    if (el.closest('.hero')) return;
+    if (!el.classList.contains('journey')) el.classList.add('reveal');
+    io.observe(el);
+  });
+} else {
+  document.querySelectorAll('.journey').forEach(function (j) { j.classList.add('in'); });
+}
+
+// Colour burst wherever you click: we stay black & white, you bring the colour
+if (!reduce) document.addEventListener('pointerdown', function (e) {
+  for (var k = 0; k < 10; k++) {
+    var d = document.createElement('span'), a = Math.random() * Math.PI * 2, r = 30 + Math.random() * 50;
+    d.className = 'burst';
+    d.style.left = (e.clientX - 5) + 'px'; d.style.top = (e.clientY - 5) + 'px';
+    d.style.background = COLORS[k % COLORS.length];
+    d.style.setProperty('--x', Math.cos(a) * r + 'px'); d.style.setProperty('--y', Math.sin(a) * r + 'px');
+    document.body.appendChild(d);
+    setTimeout(d.remove.bind(d), 800);
+  }
+});

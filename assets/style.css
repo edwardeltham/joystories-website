@@ -302,3 +302,21 @@ button.btn { font: inherit; font-weight: 700; background: var(--white); color: v
 .quote:nth-child(5n) blockquote::first-letter { color: var(--orange); }
 @media (max-width: 900px) { .quotes { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .quotes { grid-template-columns: 1fr; } }
+
+/* Photos */
+.shot { margin: 0; overflow: hidden; border: 2px solid var(--black); aspect-ratio: 4 / 3; }
+.shot--wide { aspect-ratio: 16 / 9; }
+.shot img { transition: filter .4s, transform .6s; }
+.shot:hover img { transform: scale(1.04); }
+.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 40px; }
+.gallery .shot:nth-child(1), .gallery .shot:nth-child(6) { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+@media (max-width: 900px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+
+/* Case study */
+.case-video { position: relative; margin-top: 32px; border: 2px solid var(--white); aspect-ratio: 16 / 9; overflow: hidden; }
+.case-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.case-play { position: absolute; left: 24px; bottom: 24px; }
+.film { padding: 0; border: 0; background: var(--black); width: min(1100px, 94vw); }
+.film::backdrop { background: rgba(0,0,0,.85); }
+.film video { width: 100%; display: block; }
+.film-close { position: absolute; top: 6px; right: 10px; z-index: 2; background: none; border: 0; color: var(--white); font-size: 2rem; cursor: pointer; }

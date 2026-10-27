@@ -71,3 +71,19 @@ if (!reduce) document.addEventListener('pointerdown', function (e) {
     setTimeout(d.remove.bind(d), 800);
   }
 });
+
+// Case study film
+var film = document.getElementById('film');
+document.querySelectorAll('[data-film]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var v = film.querySelector('video');
+    if (v.getAttribute('src') !== b.dataset.film) v.src = b.dataset.film;
+    film.showModal(); v.play();
+  });
+});
+if (film) {
+  var stop = function () { film.querySelector('video').pause(); };
+  film.querySelector('.film-close').addEventListener('click', function () { film.close(); });
+  film.addEventListener('close', stop);
+  film.addEventListener('click', function (e) { if (e.target === film) film.close(); });
+}

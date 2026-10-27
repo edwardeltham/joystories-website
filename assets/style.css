@@ -348,3 +348,4 @@ button.btn { font: inherit; font-weight: 700; background: var(--white); color: v
 .post-figure .shot, .post-gallery .shot { aspect-ratio: 4 / 3; }
 .post-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 2em 0; }
 @media (max-width: 720px) { .post-gallery { grid-template-columns: 1fr 1fr; } }
+.post-gallery--portrait .shot { aspect-ratio: 3 / 4; }

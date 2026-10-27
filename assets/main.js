@@ -20,15 +20,29 @@ document.querySelectorAll('.cal-filter button').forEach(function (b) {
   });
 });
 
-// Contact form: opens the visitor's email app with the details filled in
+// Contact form: sends to contact.php (emails edward@joystories.co on Hostinger).
+// If that isn't available, falls back to opening the visitor's email app.
 var form = document.getElementById('contact-form');
 if (form) form.addEventListener('submit', function (e) {
   e.preventDefault();
-  var d = new FormData(form);
-  var body = ['Name: ' + d.get('name'), 'Email: ' + d.get('email'), 'Company: ' + d.get('company'),
-    'Team size: ' + d.get('size'), 'Interested in: ' + d.get('interest'), '', d.get('message')].join('\n');
-  location.href = 'mailto:' + form.dataset.email + '?subject=' + encodeURIComponent('Enquiry from ' + d.get('company')) +
-    '&body=' + encodeURIComponent(body);
+  var d = new FormData(form), btn = form.querySelector('button[type=submit]'), status = document.getElementById('form-status');
+  function mailto() {
+    var body = ['Name: ' + d.get('name'), 'Email: ' + d.get('email'), 'Company: ' + d.get('company'),
+      'Team size: ' + d.get('size'), 'Interested in: ' + d.get('interest'), '', d.get('message')].join('\n');
+    location.href = 'mailto:' + form.dataset.email + '?subject=' + encodeURIComponent('Enquiry from ' + d.get('company')) +
+      '&body=' + encodeURIComponent(body);
+  }
+  btn.disabled = true; btn.textContent = 'Sending...';
+  fetch('contact.php', { method: 'POST', body: d })
+    .then(function (r) { return r.ok ? r.json() : { ok: false }; })
+    .then(function (res) {
+      if (!res.ok) throw new Error('send failed');
+      form.reset();
+      status.hidden = false;
+      status.textContent = 'Thank you. Your message is with Edward, and we\'ll come back within one working day.';
+      btn.textContent = 'Sent';
+    })
+    .catch(function () { btn.disabled = false; btn.textContent = 'Send'; mailto(); });
 });
 
 var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -363,3 +363,8 @@ button.btn { font: inherit; font-weight: 700; background: var(--white); color: v
 
 /* Journal closing note */
 .post-body .post-note { margin-top: 2.4em; padding-top: 1.2em; border-top: 1px solid rgba(10,10,10,.15); font-size: 1rem; opacity: .8; }
+
+/* Contact form */
+.form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-status { margin: 4px 0 0; font-weight: 600; }
+.form-status::before { content: ""; display: inline-block; width: .55em; height: .55em; border-radius: 50%; background: var(--green); margin-right: 8px; vertical-align: .1em; }

@@ -383,3 +383,5 @@ button.btn { font: inherit; font-weight: 700; background: var(--white); color: v
 .vcase .case-play { left: 14px; bottom: 14px; padding: 10px 16px; font-size: .75rem; }
 .vcase p { margin: 0 0 14px; opacity: .9; }
 @media (max-width: 900px) { .vgrid { grid-template-columns: 1fr; gap: 48px; } }
+/* keyword line inside the h1, styled as the eyebrow above it */
+h1 > .eyebrow { display: block; font-family: var(--body); font-style: normal; line-height: 1.4; max-width: none; }

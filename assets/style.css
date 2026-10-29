@@ -202,7 +202,7 @@ p { margin: 0 0 1em; }
 /* Rotating hero word */
 .rotator { display: inline-block; transition: transform .35s, opacity .35s;
   /* Room for descenders (p, y, j) and the italic overhang, so the gradient text isn't clipped */
-  padding: 0 .06em .18em 0; margin: 0 -.06em -.18em 0; }
+  padding: 0 .08em .3em 0; margin: 0 -.08em -.3em 0; }
 .rotator.out { transform: translateY(-0.4em) rotate(-4deg); opacity: 0; }
 
 /* Colour burst on click: we are black & white, you bring the colour */

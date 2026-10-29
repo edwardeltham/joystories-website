@@ -368,3 +368,5 @@ button.btn { font: inherit; font-weight: 700; background: var(--white); color: v
 .form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .form-status { margin: 4px 0 0; font-weight: 600; }
 .form-status::before { content: ""; display: inline-block; width: .55em; height: .55em; border-radius: 50%; background: var(--green); margin-right: 8px; vertical-align: .1em; }
+.section:not(.section--dark) .case-video { border-color: var(--black); }
+.case .arrow { font-weight: 700; color: inherit; text-underline-offset: 4px; }

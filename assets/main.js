@@ -101,3 +101,11 @@ if (film) {
   film.addEventListener('close', stop);
   film.addEventListener('click', function (e) { if (e.target === film) film.close(); });
 }
+
+// Highlight loops that only play while on screen
+document.querySelectorAll('video.inview').forEach(function (v) {
+  if (!('IntersectionObserver' in window) || reduce) return;
+  new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); });
+  }, { threshold: 0.25 }).observe(v);
+});

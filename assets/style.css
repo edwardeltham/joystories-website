@@ -209,6 +209,11 @@ p { margin: 0 0 1em; }
 .burst { position: fixed; width: 10px; height: 10px; border-radius: 50%; pointer-events: none; z-index: 99; animation: burst .8s ease-out forwards; }
 @keyframes burst { to { transform: translate(var(--x), var(--y)) scale(.2); opacity: 0; } }
 
+/* Team cursor: the squad of dots that follows the pointer (see main.js) */
+.squad { position: fixed; left: 0; top: 0; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; z-index: 98; opacity: 0; transition: opacity .3s; will-change: transform; }
+.squad.on { opacity: .9; }
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) { .squad { display: none; } }
+
 /* Wobbly buttons and cards */
 .btn:active { transform: scale(.96); }
 .card--link:hover h3 { animation: wiggle .5s; }

@@ -390,3 +390,36 @@ button.btn { font: inherit; font-weight: 700; background: var(--white); color: v
 @media (max-width: 900px) { .vgrid { grid-template-columns: 1fr; gap: 48px; } }
 /* keyword line inside the h1, styled as the eyebrow above it */
 h1 > .eyebrow { display: block; font-family: var(--body); font-style: normal; line-height: 1.4; max-width: none; }
+
+/* The Joy Letter: newsletter sign-up (footer and post-game invite) */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.nl-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.nl-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.nl-row input { flex: 1 1 220px; min-width: 0; font: inherit; padding: 14px 16px; border: 2px solid var(--black); background: var(--white); color: var(--black); border-radius: 0; }
+.nl-row input:focus { outline: none; box-shadow: 6px 6px 0 var(--yellow); }
+.nl-row .btn { cursor: pointer; font-family: var(--body); }
+.nl-pop .btn--solid { background: var(--black); color: var(--white); border-color: var(--black); }
+.nl-note { font-size: 0.8rem; opacity: 0.7; margin: 10px 0 0; }
+.nl-status { margin: 10px 0 0; font-weight: 600; }
+.nl-status::before { content: ""; display: inline-block; width: .55em; height: .55em; border-radius: 50%; background: var(--green); margin-right: 8px; vertical-align: .1em; }
+.nl-status.err::before { background: var(--pink); }
+.nl-foot { display: grid; grid-template-columns: 1fr 1.2fr; gap: 32px; align-items: end; margin-top: 48px; padding-top: 32px; border-top: 1px solid #333; }
+.nl-foot h3 { font-family: var(--display); font-weight: 400; font-size: 2rem; margin: 0 0 6px; }
+.nl-foot h3::after { content: "."; color: var(--yellow); }
+.nl-foot p { margin: 0; opacity: .8; max-width: 44ch; }
+.nl-foot .nl-row input { border-color: var(--white); }
+.nl-foot .btn--solid { background: var(--white); color: var(--black); border-color: var(--white); }
+.nl-foot .nl-note, .nl-foot .nl-status { opacity: .7; }
+.nl-foot .nl-status { opacity: 1; }
+.site-footer .nl-foot + .small { margin-top: 32px; }
+.nl-pop { width: min(520px, calc(100vw - 32px)); padding: 40px 36px 28px; border: 2px solid var(--black); box-shadow: 10px 10px 0 var(--yellow); background: var(--white); color: var(--black); animation: pop .4s cubic-bezier(.3,1.6,.5,1); }
+.nl-pop::backdrop { background: rgba(10,10,10,.7); }
+.nl-pop h2 { font-size: clamp(2rem, 6vw, 2.6rem); }
+.nl-pop > p { margin: 0 0 20px; }
+.nl-close { position: absolute; top: 8px; right: 12px; background: none; border: 0; font-size: 2rem; line-height: 1; cursor: pointer; color: var(--black); }
+.nl-skip { display: block; margin: 18px auto 0; background: none; border: 0; font: inherit; font-size: 0.85rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; opacity: .7; color: var(--black); }
+.nl-skip:hover { opacity: 1; }
+@media (max-width: 720px) {
+  .nl-foot { grid-template-columns: 1fr; gap: 18px; }
+  .nl-pop { padding: 36px 20px 22px; }
+}

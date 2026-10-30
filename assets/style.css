@@ -490,3 +490,19 @@ h1 > .eyebrow { display: block; font-family: var(--body); font-style: normal; li
   .jc-tabs button { flex: 1 1 100%; }
   .jc-cover { box-shadow: 8px 8px 0 var(--yellow); margin-right: 8px; transform: none; }
 }
+
+/* Images: picture wrappers shouldn't change layout */
+picture { display: contents; }
+
+/* Accessibility */
+.skip-link { position: absolute; left: 16px; top: -100px; z-index: 200; padding: 12px 18px; background: var(--black); color: var(--white); font-weight: 600; border: 2px solid var(--yellow); }
+.skip-link:focus { top: 16px; }
+main:focus { outline: none; }
+:focus-visible { outline: 3px solid var(--black); outline-offset: 3px; }
+.site-footer :focus-visible, .wa-float:focus-visible { outline-color: var(--yellow); }
+
+/* WhatsApp button */
+.wa-float { position: fixed; right: 20px; bottom: 20px; z-index: 90; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--black); color: var(--white); border: 2px solid var(--white); box-shadow: 4px 4px 0 var(--green); transition: transform .2s, box-shadow .2s; }
+.wa-float:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--green); }
+@media (max-width: 600px) { .wa-float { right: 16px; bottom: 16px; width: 52px; height: 52px; } }
+@media print { .wa-float, .skip-link { display: none; } }

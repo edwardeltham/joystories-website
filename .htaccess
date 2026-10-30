@@ -60,3 +60,19 @@ ExpiresByType video/mp4 "access plus 1 month"
 ExpiresByType text/css "access plus 1 hour"
 ExpiresByType application/javascript "access plus 1 hour"
 </IfModule>
+
+# Speed: let browsers keep images, fonts, CSS and JS (CSS/JS URLs carry ?v= so updates still show)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/x-icon "access plus 30 days"
+  ExpiresByType video/mp4 "access plus 30 days"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml text/plain
+</IfModule>

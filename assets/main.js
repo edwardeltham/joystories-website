@@ -109,3 +109,8 @@ document.querySelectorAll('video.inview').forEach(function (v) {
     entries.forEach(function (e) { if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); });
   }, { threshold: 0.25 }).observe(v);
 });
+
+// Friendly offline page for returning visitors (see sw.js)
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+}

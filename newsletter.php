@@ -13,10 +13,11 @@ nl_rate_limit($dir);
 $saved = nl_save($dir, $email, $source);
 if ($saved === 'existing') nl_done(true);
 
-$synced = nl_sync(nl_config(), $email);
+$cfg = nl_config();
+$synced = nl_sync($cfg, $email);
 
 $body = "Email: $email\nSigned up from: $source\nTime (UTC): " . gmdate('d M Y, H:i') . "\n" . ($synced ? "$synced\n" : '');
-$mailed = nl_mail(NL_TO, 'New Joy Letter sign-up: ' . $email, $body);
+$mailed = nl_notify($cfg, 'New Joy Letter sign-up: ' . $email, $body) !== '';
 
 $ok = $saved === 'new' || $mailed;
 nl_done($ok, $ok ? 200 : 500);

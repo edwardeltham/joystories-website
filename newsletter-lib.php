@@ -100,9 +100,9 @@ function nl_mail($to, $subject, $body, $content_type = 'text/plain; charset=UTF-
   return mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, $headers, '-f' . NL_FROM);
 }
 
-// Email to a visitor, as HTML with a plain-text twin (Gmail trusts that more than HTML alone).
+// Email as HTML with a plain-text twin (Gmail trusts that more than HTML alone).
 // Goes through Brevo when a key is set, since Brevo signs its mail; falls back to the server's mail().
-function nl_send_visitor($cfg, $to, $subject, $html, $text) {
+function nl_send($cfg, $to, $subject, $html, $text) {
   if (!empty($cfg['brevo_key'])) {
     $code = nl_post_json('https://api.brevo.com/v3/smtp/email', ['api-key: ' . $cfg['brevo_key']], [
       'sender' => ['name' => 'Joy Stories', 'email' => NL_FROM], 'replyTo' => ['email' => NL_TO, 'name' => 'Edward at Joy Stories'],
@@ -113,4 +113,9 @@ function nl_send_visitor($cfg, $to, $subject, $html, $text) {
   $body = "--$b\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode($text)) .
     "--$b\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode($html)) . "--$b--\r\n";
   return nl_mail($to, $subject, $body, "multipart/alternative; boundary=\"$b\"") ? 'mail' : '';
+}
+
+// A plain note to Edward, sent the same way so it arrives when the server's mail() doesn't
+function nl_notify($cfg, $subject, $text) {
+  return nl_send($cfg, NL_TO, $subject, '<pre style="font:14px/1.5 Arial,sans-serif">' . htmlspecialchars($text) . '</pre>', $text);
 }

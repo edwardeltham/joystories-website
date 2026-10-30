@@ -61,14 +61,14 @@ $text = "Your Joy Calendar is here.\n\n42 lesser-known days worth celebrating at
   "A tip to start: pick one day that lands in a quiet week, read the Method once, and say \"The Learning\" out loud at the end.\n\n" .
   "Want the whole year planned and run for your team? Just reply to this email.\n\nEdward\nJoy Stories | joystories.co | +91 98402 54762\n\n" .
   "You asked for the Joy Calendar on joystories.co. We'll also send you the Joy Letter, one short email a month. Reply \"unsubscribe\" anytime.\n";
-$via = nl_send_visitor($cfg, $email, 'Your Joy Calendar from Joy Stories', $html, $text);
+$via = nl_send($cfg, $email, 'Your Joy Calendar from Joy Stories', $html, $text);
 $sent = $via !== '';
 
 if ($saved === 'new') {
   $synced = nl_sync($cfg, $email, 'brevo_calendar_list');
   $body = "Email: $email\nDownloaded: The Joy Calendar (from $source)\nTime (UTC): " . gmdate('d M Y, H:i') . "\n" .
     'Link emailed to them: ' . ($sent ? "yes, via $via" : 'NO, sending failed') . "\n" . ($synced ? "$synced\n" : '');
-  nl_mail(NL_TO, 'Joy Calendar download: ' . $email, $body);
+  nl_notify($cfg, 'Joy Calendar download: ' . $email, $body);
 }
 
 nl_done(true, 200, ['url' => $url, 'emailed' => $sent]);

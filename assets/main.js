@@ -109,3 +109,55 @@ document.querySelectorAll('video.inview').forEach(function (v) {
     entries.forEach(function (e) { if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); });
   }, { threshold: 0.25 }).observe(v);
 });
+
+// Team cursor: a squad of colour dots follows your pointer (I), falls in line
+// behind you as you move (We), and huddles round you when you stop or point at
+// something worth clicking (Us). Desktop mice only; off for reduced motion.
+if (!reduce && window.matchMedia('(hover: hover) and (pointer: fine)').matches) (function () {
+  var squad = COLORS.map(function (c) {
+    var d = document.createElement('span');
+    d.className = 'squad'; d.style.background = c;
+    document.body.appendChild(d);
+    return { el: d, x: -99, y: -99 };
+  });
+  var px = -99, py = -99, lastMove = 0, hot = false, running = false, shown = false;
+  var HOT = 'a, button, summary, [role=button], .lo-cell, .mm-card, .tw-tile';
+
+  function frame(t) {
+    var idle = t - lastMove > 450, huddle = idle || hot, settled = true;
+    squad.forEach(function (s, i) {
+      var tx, ty;
+      if (huddle) {
+        // Gather in a ring around the pointer, tighter on clickable things
+        var a = i / squad.length * Math.PI * 2 - Math.PI / 2, r = hot ? 18 : 24;
+        tx = px + Math.cos(a) * r; ty = py + Math.sin(a) * r;
+      } else {
+        // Follow the leader: each dot chases the one ahead of it
+        var lead = i ? squad[i - 1] : { x: px, y: py };
+        tx = lead.x; ty = lead.y;
+      }
+      var k = huddle ? 0.12 : 0.35 - i * 0.03;
+      s.x += (tx - s.x) * k; s.y += (ty - s.y) * k;
+      if (Math.abs(tx - s.x) + Math.abs(ty - s.y) > 0.5) settled = false;
+      s.el.style.transform = 'translate(' + (s.x - 4) + 'px,' + (s.y - 4) + 'px)' + (hot ? ' scale(1.25)' : '');
+    });
+    // Rest once everyone is in place; the next pointer move wakes the squad
+    if (!settled || !idle) requestAnimationFrame(frame); else running = false;
+  }
+  function wake() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+  document.addEventListener('pointermove', function (e) {
+    if (e.pointerType !== 'mouse') return;
+    px = e.clientX; py = e.clientY; lastMove = performance.now();
+    hot = !!(e.target.closest && e.target.closest(HOT));
+    if (!shown) {
+      shown = true;
+      squad.forEach(function (s) { s.x = px; s.y = py; s.el.classList.add('on'); });
+    }
+    wake();
+  }, { passive: true });
+  document.documentElement.addEventListener('mouseleave', function () {
+    shown = false; squad.forEach(function (s) { s.el.classList.remove('on'); });
+  });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) lastMove = performance.now(); });
+})();

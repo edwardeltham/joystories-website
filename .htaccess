@@ -16,11 +16,14 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 # Spam pages planted on the old WordPress site (2024 to Jan 2026).
 # 410 Gone tells Google they are removed for good, so it drops them fast.
-RewriteCond %{REQUEST_URI} !^/contact\.php$
+RewriteCond %{REQUEST_URI} !^/(contact|newsletter|joy-calendar)\.php$
 RewriteRule \.php$ - [G,L]
 RewriteRule ^(news|id|home)/.+$ - [G,L]
 RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
 RewriteRule \.xml$ - [G,L]
+
+# The Joy Calendar PDF is only handed out by joy-calendar.php, in exchange for an email
+RewriteRule ^downloads/ - [F,L]
 
 # Old WordPress addresses that Google still knows, sent to their new pages
 RewriteRule ^home/?$ https://joystories.co/ [R=301,L]

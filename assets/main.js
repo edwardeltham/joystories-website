@@ -237,3 +237,46 @@ if (!reduce && window.matchMedia('(hover: hover) and (pointer: fine)').matches) 
     d.showModal();
   }
 })();
+
+// The Joy Calendar download: an email in, the PDF out (see joy-calendar.php).
+// Also switches between the sample days in the peek.
+(function () {
+  var tabs = document.querySelectorAll('.jc-tabs [role=tab]');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (x) {
+        var on = x === tab;
+        x.setAttribute('aria-selected', on);
+        document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+      });
+    });
+  });
+
+  var form = document.querySelector('.jc-form');
+  if (!form) return;
+  form.querySelector('[name=t]').value = Math.floor(Date.now() / 1000);
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = form.querySelector('button[type=submit]'), status = form.querySelector('.nl-status'),
+      get = form.querySelector('.jc-get'), label = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending...';
+    fetch(form.getAttribute('action'), { method: 'POST', body: new FormData(form) })
+      .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+      .then(function (res) {
+        if (!res.ok || !res.url) throw new Error('download failed');
+        try { localStorage.setItem('joy-letter', 'subscribed'); } catch (err) {}
+        form.querySelector('.nl-row').hidden = true;
+        form.querySelector('.nl-note').hidden = true;
+        status.hidden = false; status.classList.remove('err');
+        status.textContent = res.emailed
+          ? 'It\'s yours. We\'ve also emailed the link to you, so it\'s there when you need it.'
+          : 'It\'s yours. Download it below.';
+        get.href = res.url; get.hidden = false; get.focus();
+      })
+      .catch(function () {
+        btn.disabled = false; btn.textContent = label;
+        status.hidden = false; status.classList.add('err');
+        status.textContent = 'That didn\'t go through. Please check your email, or write to edward@joystories.co for a copy.';
+      });
+  });
+})();

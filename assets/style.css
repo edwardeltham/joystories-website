@@ -46,6 +46,9 @@ p { margin: 0 0 1em; }
 .joy {
   background: linear-gradient(90deg, var(--yellow), var(--orange), var(--pink), var(--blue), var(--green));
   -webkit-background-clip: text; background-clip: text; color: transparent;
+  /* Italic glyphs lean past their box and background-clip only paints inside it, so pad the box out and cancel the padding with margin. */
+  padding: 0 .14em 0 .04em; margin: 0 -.14em 0 -.04em;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
 .joy-bar { height: 8px; background: linear-gradient(90deg, var(--yellow) 0 20%, var(--orange) 20% 40%, var(--pink) 40% 60%, var(--blue) 60% 80%, var(--green) 80%); }
 .dot { display: inline-block; width: 0.55em; height: 0.55em; border-radius: 50%; background: var(--pink); vertical-align: 0.1em; }
@@ -342,7 +345,7 @@ button.btn { font: inherit; font-weight: 700; background: var(--white); color: v
 .post-card:hover h3 { text-decoration: underline; text-decoration-color: var(--yellow); text-decoration-thickness: 3px; text-underline-offset: 6px; }
 .type-cover { aspect-ratio: 4 / 3; background: var(--black); color: var(--white); display: grid; place-items: center; border: 2px solid var(--black); overflow: hidden; }
 .type-cover.shot--wide { aspect-ratio: 16 / 9; }
-.type-cover span { font-family: var(--display); font-style: italic; font-size: clamp(3rem, 9vw, 9rem); letter-spacing: .02em; background: linear-gradient(90deg, var(--yellow), var(--orange), var(--pink), var(--blue), var(--green)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.type-cover span { font-family: var(--display); font-style: italic; font-size: clamp(3rem, 9vw, 9rem); letter-spacing: .02em; background: linear-gradient(90deg, var(--yellow), var(--orange), var(--pink), var(--blue), var(--green)); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-block; padding: .05em .16em .05em .06em; line-height: 1.1; }
 .post-card .type-cover span { font-size: clamp(2.4rem, 5vw, 4rem); }
 .post-title { max-width: 16ch; font-size: clamp(2.6rem, 7vw, 5.4rem); }
 .post-body { max-width: 68ch; margin: 0 auto; font-size: 1.1rem; line-height: 1.75; }

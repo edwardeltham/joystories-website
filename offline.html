@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You're offline | Joy Stories</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="stylesheet" href="/assets/style.css?v=offline1">
+<style>
+  .offline { min-height: 100vh; display: flex; flex-direction: column; }
+  .offline main { flex: 1; }
+  .offline .lo-board { grid-template-columns: repeat(3, 1fr); max-width: 300px; }
+  .offline .split { align-items: center; }
+  .offline .ticks { margin-top: 24px; }
+</style>
+</head>
+<body class="offline">
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="/"><img src="/assets/logo-black.png" alt="Joy Stories" width="92" height="56"></a>
+  </div>
+</header>
+<main>
+<section class="hero" style="padding-bottom:40px">
+  <div class="wrap">
+    <span class="eyebrow">No internet</span>
+    <h1>Your connection stepped out for a <span class="joy">chai break</span>.</h1>
+    <p class="lead">We'll be right here when it's back. Until then, light up this little team.</p>
+    <div class="btn-row"><button class="btn btn--solid" id="retry">Try again</button></div>
+  </div>
+</section>
+<section class="section section--line" style="padding-top:40px">
+  <div class="wrap split">
+    <div>
+      <span class="eyebrow">Light up the team</span>
+      <p>Tap a person to light them up. Their neighbours flip too, because nobody moves alone. Get all nine glowing.</p>
+      <p class="stats"><span>Moves: <b id="lo-moves">0</b></span><span>Lit: <b id="lo-lit">0</b>/9</span></p>
+      <div class="btn-row"><button class="btn" id="lo-reset">New team</button></div>
+      <p class="win" id="lo-win" hidden></p>
+      <ul class="ticks">
+        <li><strong>Talk to Edward Eltham</strong><br><a href="tel:+919840254762">+91 98402 54762</a> &middot; <a href="mailto:edward@joystories.co">edward@joystories.co</a></li>
+      </ul>
+    </div>
+    <div class="lo-board" id="lo-board" role="grid" aria-label="Light up the team board"></div>
+  </div>
+</section>
+</main>
+<div class="joy-bar" aria-hidden="true"></div>
+<script>
+(function () {
+  var N = 3, COLORS = ['#ffd400', '#ff7a00', '#ff3d7f', '#2f6bff', '#00c48c'];
+  var board = document.getElementById('lo-board'), cells = [], state = [], moves = 0;
+  function $(id) { return document.getElementById(id); }
+  for (var i = 0; i < N * N; i++) {
+    var b = document.createElement('button');
+    b.className = 'lo-cell'; b.style.setProperty('--c', COLORS[i % COLORS.length]);
+    b.setAttribute('aria-label', 'Team member ' + (i + 1));
+    b.addEventListener('click', press.bind(null, i, true));
+    board.appendChild(b); cells.push(b);
+  }
+  function press(i, byPlayer) {
+    var r = Math.floor(i / N), c = i % N;
+    [[r, c], [r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]].forEach(function (p) {
+      if (p[0] >= 0 && p[0] < N && p[1] >= 0 && p[1] < N) state[p[0] * N + p[1]] ^= 1;
+    });
+    if (byPlayer) { moves++; render(); }
+  }
+  function render() {
+    var lit = 0;
+    cells.forEach(function (c, i) { c.classList.toggle('on', !!state[i]); c.setAttribute('aria-pressed', !!state[i]); lit += state[i]; });
+    $('lo-moves').textContent = moves; $('lo-lit').textContent = lit;
+    if (lit === N * N && moves) { $('lo-win').textContent = 'All nine glowing in ' + moves + ' moves. Now, about that internet...'; $('lo-win').hidden = false; }
+  }
+  function reset() {
+    state = new Array(N * N).fill(1); moves = 0; $('lo-win').hidden = true;
+    for (var k = 0; k < 3; k++) press(Math.floor(Math.random() * N * N), false);
+    if (state.every(Boolean)) press(4, false);
+    render();
+  }
+  $('lo-reset').addEventListener('click', reset);
+  $('retry').addEventListener('click', function () { location.reload(); });
+  window.addEventListener('online', function () { location.reload(); });
+  reset();
+})();
+</script>
+</body>
+</html>

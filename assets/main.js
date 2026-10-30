@@ -110,6 +110,11 @@ document.querySelectorAll('video.inview').forEach(function (v) {
   }, { threshold: 0.25 }).observe(v);
 });
 
+// Friendly offline page for returning visitors (see sw.js)
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+}
+
 // Team cursor: a squad of colour dots follows your pointer (I), falls in line
 // behind you as you move (We), and huddles round you when you stop or point at
 // something worth clicking (Us). Desktop mice only; off for reduced motion.

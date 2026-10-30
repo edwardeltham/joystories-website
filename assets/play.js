@@ -2,7 +2,10 @@
 var PALETTE = ['#ffd400', '#ff7a00', '#ff3d7f', '#2f6bff', '#00c48c'];
 function $(id) { return document.getElementById(id); }
 function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
-function win(el, text) { el.textContent = text; el.hidden = false; }
+function win(el, text) {
+  el.textContent = text; el.hidden = false;
+  document.dispatchEvent(new CustomEvent('joy:game-finished', { detail: { game: el.id.split('-')[0] } }));
+}
 
 /* ---------- 01 Light up the team (Lights Out, 4x4) ---------- */
 (function () {

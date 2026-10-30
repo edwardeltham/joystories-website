@@ -166,3 +166,74 @@ if (!reduce && window.matchMedia('(hover: hover) and (pointer: fine)').matches) 
   });
   document.addEventListener('visibilitychange', function () { if (!document.hidden) lastMove = performance.now(); });
 })();
+
+// The Joy Letter: newsletter sign-up in the footer, plus a one-time invite after a
+// visitor finishes a game. Sign-ups go to newsletter.php (saved, and emailed to Edward).
+(function () {
+  var KEY = 'joy-letter', AFTER_GAMES = 1;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  function wire(form) {
+    var t = form.querySelector('[name=t]');
+    if (t) t.value = Math.floor(Date.now() / 1000);
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = form.querySelector('button[type=submit]'), status = form.querySelector('.nl-status'), label = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Signing up...';
+      fetch(form.getAttribute('action'), { method: 'POST', body: new FormData(form) })
+        .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+        .then(function (res) {
+          if (!res.ok) throw new Error('signup failed');
+          set(KEY, 'subscribed');
+          form.querySelector('.nl-row').hidden = true;
+          status.hidden = false; status.classList.remove('err');
+          status.textContent = 'You\'re in. The next Joy Letter is on its way to you.';
+        })
+        .catch(function () {
+          btn.disabled = false; btn.textContent = label;
+          status.hidden = false; status.classList.add('err');
+          status.textContent = 'That didn\'t go through. Please check your email, or write to edward@joystories.co.';
+        });
+    });
+  }
+  document.querySelectorAll('.nl-form').forEach(wire);
+
+  // Shown once: after AFTER_GAMES finished games, unless they've signed up or said no
+  var played = 0;
+  document.addEventListener('joy:game-finished', function () {
+    played++;
+    if (played < AFTER_GAMES || get(KEY) || !window.HTMLDialogElement) return;
+    set(KEY, 'shown');
+    setTimeout(invite, 1800); // let them enjoy the win message first
+  });
+
+  function invite() {
+    var d = document.createElement('dialog');
+    d.className = 'nl-pop';
+    d.setAttribute('aria-labelledby', 'nl-pop-title');
+    d.innerHTML =
+      '<button class="nl-close" type="button" aria-label="Close">&times;</button>' +
+      '<p class="eyebrow">Nice play</p>' +
+      '<h2 id="nl-pop-title">More games like this, once a month.</h2>' +
+      '<p>Get the Joy Letter: fresh team games, engagement ideas and what\'s coming up on the Joy Calendar. Short, useful, and a little bit fun.</p>' +
+      '<form class="nl-form" action="newsletter.php" method="post">' +
+        '<label class="hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>' +
+        '<input type="hidden" name="t" value=""><input type="hidden" name="source" value="play-popup">' +
+        '<div class="nl-row"><label class="sr-only" for="nl-pop-email">Work email</label>' +
+        '<input id="nl-pop-email" type="email" name="email" required autofocus placeholder="Your work email" autocomplete="email">' +
+        '<button class="btn btn--solid" type="submit">Count me in</button></div>' +
+        '<p class="nl-note">We only use your email to send the Joy Letter. No spam, and you can unsubscribe anytime.</p>' +
+        '<p class="nl-status" role="status" hidden></p>' +
+      '</form>' +
+      '<button class="nl-skip" type="button">No thanks, back to the games</button>';
+    document.body.appendChild(d);
+    wire(d.querySelector('form'));
+    function close() { d.close(); }
+    d.querySelector('.nl-close').addEventListener('click', close);
+    d.querySelector('.nl-skip').addEventListener('click', close);
+    d.addEventListener('click', function (e) { if (e.target === d) close(); });
+    d.addEventListener('close', function () { d.remove(); });
+    d.showModal();
+  }
+})();

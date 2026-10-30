@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261030">
+<link rel="stylesheet" href="assets/style.css?v=20261030b">
 </head>
 <body>
 <header class="site-header">
@@ -155,9 +155,27 @@
         <li style="opacity:.7;font-size:.9rem;line-height:1.5">214, South First Cross Street,<br>Kapaleeshwarar Nagar, Neelankarai,<br>Chennai 600041</li>
       </ul>
     </div>
+    <div class="nl-foot">
+      <div>
+        <h3>The Joy Letter</h3>
+        <p>One short email a month: fresh team games, engagement ideas and what's coming up on the Joy Calendar.</p>
+      </div>
+      <form class="nl-form" action="newsletter.php" method="post">
+        <label class="hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
+        <input type="hidden" name="t" value="">
+        <input type="hidden" name="source" value="footer">
+        <div class="nl-row">
+          <label class="sr-only" for="nl-foot-email">Work email</label>
+          <input id="nl-foot-email" type="email" name="email" required placeholder="Your work email" autocomplete="email">
+          <button class="btn btn--solid" type="submit">Sign me up</button>
+        </div>
+        <p class="nl-note">We only use your email to send the Joy Letter. No spam, and you can unsubscribe anytime.</p>
+        <p class="nl-status" role="status" hidden></p>
+      </form>
+    </div>
     <p class="small">&copy; <span id="yr">2026</span> Joy Stories. We create joyful experiences.</p>
   </div>
 </footer>
-<script src="assets/main.js?v=20261030"></script>
+<script src="assets/main.js?v=20261030b"></script>
 </body>
 </html>

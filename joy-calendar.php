@@ -57,12 +57,17 @@ $html = '<div style="font-family:Arial,Helvetica,sans-serif;max-width:520px;marg
   '<p>Want the whole year planned and run for your team? Just reply to this email.</p>' .
   '<p>Edward<br>Joy Stories &middot; <a href="https://joystories.co" style="color:#0a0a0a">joystories.co</a> &middot; +91 98402 54762</p>' .
   '<p style="font-size:12px;color:#777;margin-top:28px">You asked for the Joy Calendar on joystories.co. We\'ll also send you the Joy Letter, one short email a month. Reply "unsubscribe" anytime.</p></div>';
-$sent = nl_mail($email, 'Your Joy Calendar from Joy Stories', $html, 'text/html; charset=UTF-8');
+$text = "Your Joy Calendar is here.\n\n42 lesser-known days worth celebrating at work, each with one simple 7 to 12 minute activity that anyone on your team can run.\n\nDownload it here:\n$url\n\n" .
+  "A tip to start: pick one day that lands in a quiet week, read the Method once, and say \"The Learning\" out loud at the end.\n\n" .
+  "Want the whole year planned and run for your team? Just reply to this email.\n\nEdward\nJoy Stories | joystories.co | +91 98402 54762\n\n" .
+  "You asked for the Joy Calendar on joystories.co. We'll also send you the Joy Letter, one short email a month. Reply \"unsubscribe\" anytime.\n";
+$via = nl_send_visitor($cfg, $email, 'Your Joy Calendar from Joy Stories', $html, $text);
+$sent = $via !== '';
 
 if ($saved === 'new') {
   $synced = nl_sync($cfg, $email, 'brevo_calendar_list');
   $body = "Email: $email\nDownloaded: The Joy Calendar (from $source)\nTime (UTC): " . gmdate('d M Y, H:i') . "\n" .
-    'Link emailed to them: ' . ($sent ? 'yes' : 'NO, mail failed') . "\n" . ($synced ? "$synced\n" : '');
+    'Link emailed to them: ' . ($sent ? "yes, via $via" : 'NO, sending failed') . "\n" . ($synced ? "$synced\n" : '');
   nl_mail(NL_TO, 'Joy Calendar download: ' . $email, $body);
 }
 

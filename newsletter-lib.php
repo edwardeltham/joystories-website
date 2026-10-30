@@ -72,7 +72,7 @@ function nl_post_json($url, $headers, $data) {
     CURLOPT_HTTPHEADER => array_merge(['Content-Type: application/json', 'Accept: application/json'], $headers),
     CURLOPT_POSTFIELDS => json_encode($data)]);
   curl_exec($ch); $code = curl_getinfo($ch, CURLINFO_HTTP_CODE); curl_close($ch);
-  return $code;
+  return (int)$code;
 }
 
 // Optional mailing service. Returns a line for Edward's email, or '' when none is set up.
@@ -98,4 +98,19 @@ function nl_mail($to, $subject, $body, $content_type = 'text/plain; charset=UTF-
   $headers = "From: Joy Stories <" . NL_FROM . ">\r\nReply-To: Edward at Joy Stories <" . NL_TO . ">\r\n" .
     "MIME-Version: 1.0\r\nContent-Type: $content_type\r\n";
   return mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, $headers, '-f' . NL_FROM);
+}
+
+// Email to a visitor, as HTML with a plain-text twin (Gmail trusts that more than HTML alone).
+// Goes through Brevo when a key is set, since Brevo signs its mail; falls back to the server's mail().
+function nl_send_visitor($cfg, $to, $subject, $html, $text) {
+  if (!empty($cfg['brevo_key'])) {
+    $code = nl_post_json('https://api.brevo.com/v3/smtp/email', ['api-key: ' . $cfg['brevo_key']], [
+      'sender' => ['name' => 'Joy Stories', 'email' => NL_FROM], 'replyTo' => ['email' => NL_TO, 'name' => 'Edward at Joy Stories'],
+      'to' => [['email' => $to]], 'subject' => $subject, 'htmlContent' => $html, 'textContent' => $text]);
+    if ($code >= 200 && $code < 300) return 'brevo';
+  }
+  $b = 'joy' . bin2hex(random_bytes(8));
+  $body = "--$b\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode($text)) .
+    "--$b\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode($html)) . "--$b--\r\n";
+  return nl_mail($to, $subject, $body, "multipart/alternative; boundary=\"$b\"") ? 'mail' : '';
 }
